@@ -33,12 +33,6 @@ jobs:
           composer install --no-dev --optimize-autoloader
         fi
     
-    - name: Build project
-      run: |
-        if [ -f package.json ] && npm run | grep -q "build"; then
-          npm run build
-        fi
-    
     - uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_HOST }}
@@ -50,4 +44,3 @@ jobs:
           **/README.md
           **/.git*
           **/.github/**
-          **/node_modules/**

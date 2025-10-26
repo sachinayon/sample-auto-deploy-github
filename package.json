@@ -4,7 +4,6 @@
   "description": "Auto deploy project with npm support",
   "main": "index.html",
   "scripts": {
-    "build": "echo 'Building project...' && mkdir -p dist && cp index.html dist/ && echo 'Build complete!'",
     "dev": "echo 'Starting development server...'",
     "test": "echo 'Running tests...'"
   },
