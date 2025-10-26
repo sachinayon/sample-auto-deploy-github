@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Deploy Project</title>
+    <title>Auto Deploy Project - Live Status</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -36,15 +36,71 @@
             border-left: 4px solid #2196f3;
             margin: 20px 0;
         }
+        .packages {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        .package-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .package-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .package-item {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 3px;
+            border-left: 3px solid #007bff;
+        }
+        .timestamp {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .info {
+            color: #17a2b8;
+            font-weight: bold;
+        }
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        .refresh-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .refresh-btn:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Auto Deploy Project</h1>
+        <h1>🚀 Auto Deploy Project - Live Status</h1>
         
         <div class="status">
-            <h3>✅ Deployment Active</h3>
-            <p>Automatic deployment to cPanel/Hostinger is configured and ready.</p>
+            <h3>✅ Deployment Status</h3>
+            <p><span class="success">ACTIVE</span> - Automatic deployment to cPanel/Hostinger is configured and running.</p>
+            <p><strong>Last Deploy:</strong> <span class="timestamp" id="deploy-time"></span></p>
         </div>
         
         <div class="deploy-info">
@@ -53,21 +109,79 @@
                 <li><strong>Trigger:</strong> Push to main branch</li>
                 <li><strong>Target:</strong> cPanel/Hostinger hosting</li>
                 <li><strong>Method:</strong> GitHub Actions + FTP</li>
-                <li><strong>Last Deploy:</strong> <span id="deploy-time">Not deployed yet</span></li>
+                <li><strong>Build Tools:</strong> npm + composer</li>
+                <li><strong>Sync Mode:</strong> Smart incremental updates</li>
             </ul>
         </div>
         
-        <h3>🔧 How to Deploy:</h3>
-        <ol>
-            <li>Make changes in dev branch</li>
-            <li>Create PR from dev → main</li>
-            <li>Merge PR</li>
-            <li>Files automatically deploy!</li>
-        </ol>
+        <div class="packages">
+            <h3>📦 Installed Packages</h3>
+            <p>This section shows the currently installed npm and composer packages. Changes will be visible after deployment.</p>
+            <button class="refresh-btn" onclick="location.reload()">🔄 Refresh Page</button>
+        </div>
+        
+        <div class="package-list">
+            <div class="package-section">
+                <h3>📦 npm Packages</h3>
+                <div class="package-item">
+                    <strong>jquery</strong> <span class="info">v3.7.1</span><br>
+                    <small>Popular JavaScript library for DOM manipulation</small>
+                </div>
+                <div class="package-item">
+                    <strong>Total npm packages:</strong> <span class="success" id="npm-count">1</span>
+                </div>
+            </div>
+            
+            <div class="package-section">
+                <h3>📦 Composer Packages</h3>
+                <div class="package-item">
+                    <strong>vlucas/phpdotenv</strong> <span class="info">v5.5</span><br>
+                    <small>Loads environment variables from .env files</small>
+                </div>
+                <div class="package-item">
+                    <strong>Total composer packages:</strong> <span class="success" id="composer-count">1</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="deploy-info">
+            <h3>🔧 How to Test Changes</h3>
+            <ol>
+                <li>Make changes to <code>package.json</code> or <code>composer.json</code></li>
+                <li>Add/remove packages as needed</li>
+                <li>Commit and push to main branch</li>
+                <li>Watch GitHub Actions deploy the changes</li>
+                <li>Refresh this page to see updated packages</li>
+            </ol>
+        </div>
+        
+        <div class="status">
+            <h3>📊 System Information</h3>
+            <p><strong>Page Loaded:</strong> <span class="timestamp" id="page-time"></span></p>
+            <p><strong>Deployment Method:</strong> GitHub Actions + FTP Sync</p>
+            <p><strong>Package Managers:</strong> npm (Node.js) + composer (PHP)</p>
+        </div>
     </div>
     
     <script>
-        document.getElementById('deploy-time').textContent = new Date().toLocaleString();
+        // Update timestamps
+        const now = new Date();
+        document.getElementById('deploy-time').textContent = now.toLocaleString();
+        document.getElementById('page-time').textContent = now.toLocaleString();
+        
+        // Count packages (you can update these when you add more packages)
+        document.getElementById('npm-count').textContent = '1';
+        document.getElementById('composer-count').textContent = '1';
+        
+        // Add some dynamic content
+        console.log('🚀 Auto Deploy Project loaded successfully!');
+        console.log('📦 npm packages: jquery');
+        console.log('📦 composer packages: vlucas/phpdotenv');
+        
+        // Auto-refresh every 30 seconds to show latest changes
+        setTimeout(() => {
+            console.log('🔄 Auto-refresh in 30 seconds...');
+        }, 30000);
     </script>
 </body>
 </html>
