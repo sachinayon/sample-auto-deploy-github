@@ -1,15 +1,56 @@
 name: Deploy to cPanel
 
 on:
+  # Push to main branch
   push:
     branches: [ main ]
+  
+  # PR merged to main from dev
+  pull_request:
+    types: [closed]
+    branches: [ main ]
+  
+  # Manual trigger
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+  
+  # Release from main
+  release:
+    types: [published]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
+    # Only deploy on PR merge, not on PR close without merge
+    if: github.event.pull_request.merged == true || github.event_name != 'pull_request'
+    
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Display trigger information
+      run: |
+        echo "🚀 Deployment Triggered!"
+        echo "Event: ${{ github.event_name }}"
+        echo "Branch: ${{ github.ref_name }}"
+        echo "Commit: ${{ github.sha }}"
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "Environment: ${{ github.event.inputs.environment }}"
+        fi
+        if [ "${{ github.event_name }}" = "release" ]; then
+          echo "Release: ${{ github.event.release.tag_name }}"
+        fi
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo "PR Merged: ${{ github.event.pull_request.merged }}"
+        fi
     
     - name: Setup Node.js
       uses: actions/setup-node@v4
