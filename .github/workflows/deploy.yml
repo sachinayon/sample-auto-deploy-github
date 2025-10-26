@@ -33,7 +33,7 @@ jobs:
           composer install --no-dev --optimize-autoloader
         fi
     
-    - name: Deploy with backup
+    - name: Deploy and sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_HOST }}
@@ -43,7 +43,6 @@ jobs:
         server-dir: /
         timeout: 300000
         log-level: verbose
-        state-name: ftp-deploy-state
         exclude: |
           **/README.md
           **/.git/**
