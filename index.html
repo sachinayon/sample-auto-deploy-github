@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Auto Deploy Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .status {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+            margin: 20px 0;
+        }
+        .deploy-info {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #2196f3;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Sample Auto Deploy Project</h1>
+        
+        <div class="status">
+            <h3>✅ Deployment Status</h3>
+            <p>This project is set up for automatic deployment to cPanel/Hostinger when PRs are merged from dev to main branch.</p>
+        </div>
+        
+        <div class="deploy-info">
+            <h3>📋 Deployment Information</h3>
+            <ul>
+                <li><strong>Trigger:</strong> PR merge from dev → main</li>
+                <li><strong>Target:</strong> cPanel/Hostinger hosting</li>
+                <li><strong>Method:</strong> GitHub Actions + FTP/SFTP</li>
+                <li><strong>Last Deploy:</strong> <span id="deploy-time">Not deployed yet</span></li>
+            </ul>
+        </div>
+        
+        <h3>🔧 Setup Steps Completed:</h3>
+        <ol>
+            <li>✅ Project structure created</li>
+            <li>✅ GitHub Actions workflow configured</li>
+            <li>✅ Deployment script ready</li>
+            <li>✅ Environment variables setup guide</li>
+        </ol>
+        
+        <p><em>This is a test project to demonstrate automatic deployment to cPanel/Hostinger hosting.</em></p>
+    </div>
+    
+    <script>
+        // Update deploy time
+        document.getElementById('deploy-time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        .test-info {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .timestamp {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 Deployment Test Successful!</h1>
+    
+    <div class="test-info">
+        <h3>✅ Auto-Deployment Working</h3>
+        <p>This page was automatically deployed when a PR was merged from dev to main.</p>
+        
+        <h3>📊 Deployment Details</h3>
+        <ul>
+            <li><strong>Status:</strong> <span class="success">SUCCESS</span></li>
+            <li><strong>Method:</strong> GitHub Actions + FTP</li>
+            <li><strong>Target:</strong> cPanel/Hostinger</li>
+            <li><strong>Deployed:</strong> <span class="timestamp" id="deploy-time"></span></li>
+        </ul>
+    </div>
+    
+    <div class="test-info">
+        <h3>🔄 How to Test Again</h3>
+        <ol>
+            <li>Make changes in the <code>dev</code> branch</li>
+            <li>Create a PR from dev to main</li>
+            <li>Merge the PR</li>
+            <li>Check this page for updates!</li>
+        </ol>
+    </div>
+    
+    <div class="test-info">
+        <h3>📝 Test Content</h3>
+        <p>This is test content that should update when you deploy changes.</p>
+        <p><strong>Last updated:</strong> <span id="content-time"></span></p>
+    </div>
+    
+    <script>
+        // Update timestamps
+        const now = new Date();
+        document.getElementById('deploy-time').textContent = now.toLocaleString();
+        document.getElementById('content-time').textContent = now.toLocaleString();
+        
+        // Add some dynamic content
+        console.log('🚀 Deployment test page loaded successfully!');
+    </script>
+</body>
+</html>
