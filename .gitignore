@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 composer.lock
 
+# FTP deployment state
+.ftp-deploy-sync-state.json
+
 # Environment variables
 .env
 .env.local
