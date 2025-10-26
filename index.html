@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Auto Deploy Project</title>
+    <title>Auto Deploy Project</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,36 +40,33 @@
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Sample Auto Deploy Project</h1>
+        <h1>🚀 Auto Deploy Project</h1>
         
         <div class="status">
-            <h3>✅ Deployment Status</h3>
-            <p>This project is set up for automatic deployment to cPanel/Hostinger when PRs are merged from dev to main branch.</p>
+            <h3>✅ Deployment Active</h3>
+            <p>Automatic deployment to cPanel/Hostinger is configured and ready.</p>
         </div>
         
         <div class="deploy-info">
             <h3>📋 Deployment Information</h3>
             <ul>
-                <li><strong>Trigger:</strong> PR merge from dev → main</li>
+                <li><strong>Trigger:</strong> Push to main branch</li>
                 <li><strong>Target:</strong> cPanel/Hostinger hosting</li>
-                <li><strong>Method:</strong> GitHub Actions + FTP/SFTP</li>
+                <li><strong>Method:</strong> GitHub Actions + FTP</li>
                 <li><strong>Last Deploy:</strong> <span id="deploy-time">Not deployed yet</span></li>
             </ul>
         </div>
         
-        <h3>🔧 Setup Steps Completed:</h3>
+        <h3>🔧 How to Deploy:</h3>
         <ol>
-            <li>✅ Project structure created</li>
-            <li>✅ GitHub Actions workflow configured</li>
-            <li>✅ Deployment script ready</li>
-            <li>✅ Environment variables setup guide</li>
+            <li>Make changes in dev branch</li>
+            <li>Create PR from dev → main</li>
+            <li>Merge PR</li>
+            <li>Files automatically deploy!</li>
         </ol>
-        
-        <p><em>This is a test project to demonstrate automatic deployment to cPanel/Hostinger hosting.</em></p>
     </div>
     
     <script>
-        // Update deploy time
         document.getElementById('deploy-time').textContent = new Date().toLocaleString();
     </script>
 </body>

@@ -1,98 +1,19 @@
-name: Auto Deploy to cPanel/Hostinger
+name: Deploy to cPanel
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    types: [closed]
     branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
-    # Only run if PR is merged (not just closed)
-    if: github.event.pull_request.merged == true || (github.event_name == 'push' && github.ref == 'refs/heads/main')
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+    - uses: actions/checkout@v4
     
-    - name: Setup Node.js (if needed for build process)
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies (if package.json exists)
-      run: |
-        if [ -f package.json ]; then
-          npm ci
-        fi
-    
-    - name: Build project (if build script exists)
-      run: |
-        if [ -f package.json ] && npm run | grep -q "build"; then
-          npm run build
-        fi
-    
-    - name: Prepare deployment files
-      run: |
-        # Create deployment directory
-        mkdir -p deploy-files
-        
-        # Copy files to deploy (exclude unnecessary files)
-        rsync -av --exclude='.git' \
-                  --exclude='.github' \
-                  --exclude='node_modules' \
-                  --exclude='.env' \
-                  --exclude='*.log' \
-                  --exclude='.DS_Store' \
-                  --exclude='Thumbs.db' \
-                  ./ deploy-files/
-        
-        # If there's a build directory, use it instead
-        if [ -d "dist" ]; then
-          rm -rf deploy-files
-          cp -r dist deploy-files
-        elif [ -d "build" ]; then
-          rm -rf deploy-files
-          cp -r build deploy-files
-        fi
-    
-    - name: Deploy to cPanel via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    - uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
-        port: ${{ secrets.FTP_PORT || '21' }}
-        local-dir: ./deploy-files/
-        server-dir: ${{ secrets.FTP_PATH || '/public_html/' }}
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          **/.env*
-          **/*.log
-          **/.DS_Store
-          **/Thumbs.db
-          **/.github/**
-    
-    - name: Deployment Success Notification
-      if: success()
-      run: |
-        echo "✅ Deployment successful!"
-        echo "🚀 Files deployed to: ${{ secrets.FTP_HOST }}${{ secrets.FTP_PATH || '/public_html/' }}"
-        echo "📅 Deployed at: $(date)"
-        echo "🔗 Commit: ${{ github.sha }}"
-    
-    - name: Deployment Failure Notification
-      if: failure()
-      run: |
-        echo "❌ Deployment failed!"
-        echo "🔍 Check the logs above for details"
-        echo "📅 Failed at: $(date)"
-        echo "🔗 Commit: ${{ github.sha }}"
+        local-dir: ./
+        server-dir: /public_html/
