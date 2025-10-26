@@ -40,7 +40,7 @@ jobs:
         password: ${{ secrets.FTP_PASS }}
         local-dir: ./
         server-dir: /
-        exclude: |
-          **/README.md
-          **/.git*
-          **/.github/**
+         exclude: |
+           **/README.md
+           **/.git/**
+           **/.github/**
