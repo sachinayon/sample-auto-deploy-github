@@ -33,13 +33,43 @@ jobs:
           composer install --no-dev --optimize-autoloader
         fi
     
-    - uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    - name: Create backup folder
+      run: |
+        BACKUP_DATE=$(date +%Y%m%d_%H%M%S)
+        echo "Creating backup folder: backup_$BACKUP_DATE"
+        echo "BACKUP_FOLDER=backup_$BACKUP_DATE" >> $GITHUB_ENV
+    
+    - name: Backup existing files via FTP
+      uses: appleboy/ftp-action@v0.1.0
+      with:
+        host: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASS }}
+        port: 21
+        script: |
+          # Create backup directory
+          mkdir backup_${{ env.BACKUP_FOLDER }}
+          
+          # Move existing files to backup (excluding backup folders)
+          ls -la | grep -v "^d.*backup_" | grep -v "^d.*\\.$" | grep -v "^d.*\\.\\.$" | awk '{print $9}' | while read file; do
+            if [ "$file" != "" ] && [ "$file" != "backup_${{ env.BACKUP_FOLDER }}" ]; then
+              echo "Moving $file to backup_${{ env.BACKUP_FOLDER }}/"
+              mv "$file" "backup_${{ env.BACKUP_FOLDER }}/" 2>/dev/null || echo "Could not move $file"
+            fi
+          done
+          
+          echo "Backup completed: backup_${{ env.BACKUP_FOLDER }}"
+    
+    - name: Deploy new files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
         local-dir: ./
         server-dir: /
+        timeout: 300000
+        log-level: verbose
         exclude: |
           **/README.md
           **/.git/**
