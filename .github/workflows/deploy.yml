@@ -15,10 +15,22 @@ jobs:
       with:
         node-version: '18'
     
-    - name: Install dependencies
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        extensions: mbstring, dom, fileinfo, mysql
+    
+    - name: Install Node dependencies
       run: |
         if [ -f package.json ]; then
           npm install
+        fi
+    
+    - name: Install Composer dependencies
+      run: |
+        if [ -f composer.json ]; then
+          composer install --no-dev --optimize-autoloader
         fi
     
     - name: Build project
@@ -39,3 +51,4 @@ jobs:
           **/.git*
           **/.github/**
           **/node_modules/**
+          **/vendor/**
